@@ -1,90 +1,56 @@
-# Robot Cleaning Simulator
+# Smart Vacuum Cleaning Simulator
 
 ## Overview
-This project is a **multi-threaded robot cleaning simulator**, developed as part of an advanced programming course. It features **two distinct cleaning algorithms** and a simulation environment that evaluates their performance based on predefined house layouts.
+**Multi-threaded simulation framework** for an autonomous vacuum cleaner, designed as part of an advanced programming course. The system efficiently cleans dynamically defined environments using **modular, optimized algorithms**. The architecture supports multiple algorithms, parallel execution, and a competitive scoring mechanism.
 
-## Teaser - Algorithm B Visualization:
+## Teaser - Spiral Algorithm Visualization
 
 ![Algorithm B Visualization](https://github.com/user-attachments/assets/72f4e994-b8d8-4f7c-be33-c9343df4d8f0)
 
+## Features
+- **Multi-Threaded Simulation**: Runs multiple cleaning algorithms concurrently for performance evaluation.
+- **Modular Algorithm Design**: Supports dynamically loaded algorithms via shared libraries (.so files).
+- **Scalable House Representation**: Handles various house layouts with different sizes, dirt levels, and obstacles.
+- **Pathfinding Optimization**: Implements **DFS-based exploration** and **BFS-based shortest path calculations**.
+- **Performance Scoring**: Evaluates algorithms using an optimized scoring function (based on efficiency, coverage, and docking success).
+- **Error Handling & Logging**: Robust error reporting with separate logs for invalid houses and algorithms.
+- **Automated Testing & Benchmarking**: Runs all possible algorithm-house combinations and generates detailed performance summaries.
 
+## System Architecture
+- **Simulator**: Loads house files and algorithm shared libraries, manages simulation runs, and records results.
+- **Algorithms**:
+  - **DFS Algorithm**: Uses **Depth-First Search** for exploration, mapping the environment dynamically.
+  - **Spiral Algorithm**: Prioritizes structured movement for optimized coverage while minimizing redundant steps.
+- **Input & Output**:
+  - **House File (.house)**: Defines environment layout, walls, dirt levels, and docking station.
+  - **Simulation Output**: Logs vacuum steps, remaining dirt, status (FINISHED, WORKING, DEAD), and performance score.
+  - **Summary Report (.csv)**: Aggregates results across multiple runs for benchmarking.
 
-
-## Key Features
-- **Multi-threading:** Runs multiple simulations in parallel to improve efficiency.
-- **Modular architecture:** Uses shared libraries for different cleaning algorithms.
-- **Error handling:** Logs errors in a dedicated directory.
-- **Performance evaluation:** Generates a CSV report summarizing each algorithm’s effectiveness.
-- **Simulation visualization:** Simulates and tracks the robot’s movements using input and output files.
-- **Custom scoring system:** Evaluates algorithm efficiency based on cleaning success and optimization.
-
-## Cleaning Algorithms
-### **Algorithm A (DFS Movement)**
-- Explores the house using **Depth-First Search (DFS)**.
-- Maps the environment while moving.
-- Returns to the docking station using **Breadth-First Search (BFS)**.
-- Completes cleaning when all reachable spots are clean within a certain battery range.
-
-### **Algorithm B (Spiral Movement)**
-- Moves in a spiral pattern, preferring rightward motion.
-- When blocked, finds the closest unvisited or dirty spot using BFS.
-- Calculates the shortest return path to the docking station.
-- Completes cleaning similarly to Algorithm A.
-
-## Expected Input & Output
-### **Input:**
-- `.house` files representing different environments for cleaning simulation.
-- `.so` files containing dynamically linked algorithm implementations.
-
-### **Output:**
-- A text file per simulation run (`<HouseName>-<AlgorithmName>.txt`) with the following data:
-  - `NumSteps = <NUMBER>` – Number of steps taken.
-  - `DirtLeft = <NUMBER>` – Remaining dirt in the house.
-  - `Status = <FINISHED/WORKING/DEAD>` – Final status of the robot.
-  - `InDock = <TRUE/FALSE>` – Whether the robot ended at the docking station.
-  - `Score = <NUMBER>` – Performance score (lower is better).
-  - `Steps: <list of NESWsF>` – Movement sequence.
-- A `summary.csv` file summarizing algorithm performance across multiple runs.
-
-## How It Works
-1. **Load shared libraries** containing the cleaning algorithms.
-2. **Load house files** that represent different cleaning environments.
-3. **Run simulations** on multiple algorithm-house pairs in parallel.
-4. **Track performance** including steps taken, battery consumption, and remaining dirt.
-5. **Generate reports** summarizing results in `summary.csv`.
-
-## How to Run
-### **Build the Project**
+## Usage
+### Running the Simulator
 ```bash
-chmod +x ./build_all.sh
-./build_all.sh
+./myrobot -house_path=houses/ -algo_path=algorithms/ -num_threads=10 -summary_only
 ```
-Or manually build each component:
-```bash
-cd ./Algorithm_A; mkdir build; cd build; cmake ..; make; cd ../../;
-cd ./Algorithm_B; mkdir build; cd build; cmake ..; make; cd ../../;
-cd ./Simulator; mkdir build; cd build; cmake ..; make; cd ../../;
-```
+### Optional Flags
 
-### **Execute the Simulator**
-```bash
-./Simulator/build/myrobot
-```
-#### **Optional Flags:**
-- `-house_path <dir>`: Directory containing `.house` files (default: current directory).
-- `-algo_path <dir>`: Directory containing algorithm `.so` files (default: current directory).
-- `-num_thread <N>`: Maximum number of threads to use (default: 10).
-- `-summary_only`: Generate only a summary CSV (default: false).
-- `-log`: Enable logging for each algorithm-house pair (default: false).
+- `-house_path=<directory>`: Specifies the directory containing `.house` files. Defaults to the current directory if not provided.
+- `-algo_path=<directory>`: Specifies the directory containing algorithm `.so` files. Defaults to the current directory if not provided.
+- `-num_threads=<number>`: Limits the number of concurrent threads. Defaults to 10.
+- `-summary_only`: Generates only the `summary.csv` file, skipping individual simulation logs.
+- `-log`: Enables logging for each algorithm-house pair, saving detailed execution logs.
 
-### **Run a Simulation**
-```bash
-python3 ./Simulation.py myHouse.house myOutput.txt
-```
 
-Algorithm A:
+## Input & Output
+### Input
+- **House File (.house)**: Defines the environment layout, including walls (W), open spaces ( ), dirt levels (0-9), and a single docking station (D).
+- **Algorithm Files (.so)**: Shared object libraries containing cleaning strategies that get dynamically loaded.
 
-![Algorithm A Visualization](https://github.com/user-attachments/assets/d7f21669-663c-4bd5-81ee-172a76af8fbe)
+### Output
+- **Simulation Log**: Steps taken, dirt remaining, vacuum status (FINISHED/WORKING/DEAD), docking status (TRUE/FALSE).
+- **Summary Report (.csv)**: Performance metrics for multiple algorithm-house combinations.
+
+### Additional Results - DFS Algorithm Visualization
+![DFS Algorithm Visualization](https://github.com/user-attachments/assets/d7f21669-663c-4bd5-81ee-172a76af8fbe)
 
 
 
