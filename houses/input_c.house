@@ -1,0 +1,17 @@
+Arbel's House
+MaxSteps = 10000
+MaxBattery = 200
+Rows = 12
+Cols=28                    
+             W              
+            W1W             
+           W121W            
+          W12321W           
+         W1235421W          
+        w123454321W         
+        WWWWWDWWWWW         
+        W123454321W         
+        W123454321W         
+        W123WWW321W         
+        W123WWW321W         
+        W123WWW321W         
