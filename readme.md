@@ -21,8 +21,10 @@
 - **Algorithms**:
   - **DFS Algorithm**: Uses **Depth-First Search** for exploration, mapping the environment dynamically.
   - **Spiral Algorithm**: Prioritizes structured movement for optimized coverage while minimizing redundant steps.
-- **Input & Output**:
-  - **House File (.house)**: Defines environment layout, walls, dirt levels, and docking station.
+- **Input**:
+  - **House File (.house)**: Defines the environment layout, including walls (W), open spaces ( ), dirt levels (0-9), and a single docking station (D).
+  - **Algorithm Files (.so)**: Shared object libraries containing cleaning strategies that get dynamically loaded.
+- **Output**
   - **Simulation Output**: Logs vacuum steps, remaining dirt, status (FINISHED, WORKING, DEAD), and performance score.
   - **Summary Report (.csv)**: Aggregates results across multiple runs for benchmarking.
 
